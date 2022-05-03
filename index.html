@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <body>
+    <div id="myPlot" style="width: 100%; max-width: 700px;"></div>
+
+    <script>
+      // GET request for remote image in node.js
+      axios.get("http://127.0.0.1:8000/", {headers: {'Access-Control-Allow-Origin': '*'}}
+        ).then((resp) => {
+            const obj = JSON.parse(resp.data)
+            var xArray = obj.date;
+            var yArray = obj.CumDispl_m_;
+
+      // Define Data
+      var data = [
+        {
+          x: xArray,
+          y: yArray,
+          mode: "markers"
+        }
+      ];
+      var trace2 = {
+   x: xArray,
+  y: yArray,
+  mode: 'lines',
+  line: {
+    color: 'rgb(55, 128, 191)',
+    width: 3
+  }
+};
+
+
+      // Define Layout
+      var layout = {
+        xaxis: {  title: "Date" },
+        yaxis: { title: "Cumulation Displacement (m)" },
+        title: "Velocity"
+      };
+
+      // Display using Plotly
+      Plotly.newPlot("myPlot", data, layout);
+
+      });
+
+    </script>
+  </body>
+</html>
